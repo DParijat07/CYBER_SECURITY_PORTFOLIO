@@ -1,0 +1,633 @@
+# Wazuh SIEM Lab — Scenarios
+
+## 1. Purpose
+
+This document contains structured hands-on security monitoring and incident investigation scenarios for the Wazuh SIEM laboratory.
+
+The scenarios are designed to demonstrate practical SOC analyst capabilities including:
+
+- Security monitoring
+- Alert detection
+- Alert triage
+- Event analysis
+- Event correlation
+- Incident investigation
+- Indicator identification
+- Impact assessment
+- Incident response
+- Documentation
+
+All scenarios must be performed only against authorized laboratory systems.
+
+---
+
+## 2. Scenario Framework
+
+Each scenario follows the same SOC workflow:
+
+**Scenario → Event Generation → Detection → Alert → Triage → Investigation → Evidence → Classification → Response → Documentation**
+
+Each completed scenario should produce practical evidence for the portfolio.
+
+---
+
+## 3. Scenario 01 — Failed Authentication Detection
+
+### Objective
+
+Detect and investigate repeated failed authentication activity against a monitored endpoint.
+
+### Environment
+
+- Wazuh Manager
+- Wazuh Dashboard
+- Monitored Windows or Linux endpoint
+- Authorized laboratory account
+
+### Activity
+
+Generate controlled failed authentication attempts against the laboratory endpoint.
+
+### Investigation Tasks
+
+1. Locate the generated alert.
+2. Identify the rule ID.
+3. Review the rule description.
+4. Identify the affected host.
+5. Identify the affected account.
+6. Identify the source address.
+7. Review the timestamps.
+8. Count relevant authentication failures.
+9. Search for related successful authentication.
+10. Determine whether the activity was expected.
+
+### Evidence
+
+Capture:
+
+- Alert screenshot
+- Event details
+- Authentication information
+- Timeline
+- Final classification
+
+### Expected Outcome
+
+Demonstrate the ability to identify and investigate authentication-related alerts.
+
+---
+
+## 4. Scenario 02 — Successful Login After Failed Attempts
+
+### Objective
+
+Investigate a sequence of failed authentication attempts followed by a successful login.
+
+### Activity Sequence
+
+**Failed Authentication → Failed Authentication → Successful Authentication**
+
+### Investigation Tasks
+
+1. Identify the failed authentication events.
+2. Identify the successful login.
+3. Compare timestamps.
+4. Identify the account.
+5. Identify the source address.
+6. Identify the affected endpoint.
+7. Determine whether the successful login was authorized.
+8. Review activity after the successful login.
+9. Search for related process activity.
+10. Classify the activity.
+
+### Investigation Question
+
+**Was the successful authentication legitimate or potentially associated with suspicious activity?**
+
+### Expected Outcome
+
+Demonstrate event correlation and authentication investigation.
+
+---
+
+## 5. Scenario 03 — Suspicious Process Activity
+
+### Objective
+
+Investigate a suspicious or unexpected process execution on a monitored endpoint.
+
+### Activity
+
+Execute an authorized test process in the laboratory.
+
+### Investigation Tasks
+
+1. Locate the relevant alert or event.
+2. Identify the process name.
+3. Identify the process path.
+4. Identify the user.
+5. Identify the parent process where available.
+6. Review command-line information where available.
+7. Check related file activity.
+8. Check related network activity.
+9. Correlate with authentication events.
+10. Determine whether the process was expected.
+
+### Evidence
+
+Capture:
+
+- Process event
+- Alert information
+- Host information
+- Related events
+- Investigation timeline
+
+### Expected Outcome
+
+Demonstrate endpoint process investigation.
+
+---
+
+## 6. Scenario 04 — File Integrity Monitoring
+
+### Objective
+
+Detect and investigate a controlled modification to a monitored file.
+
+### Activity
+
+Modify an authorized test file monitored by Wazuh File Integrity Monitoring.
+
+### Investigation Tasks
+
+1. Identify the modified file.
+2. Record the file path.
+3. Record the modification time.
+4. Identify the user.
+5. Review the generated alert.
+6. Review related process activity.
+7. Determine whether the modification was expected.
+8. Search for related authentication events.
+9. Capture evidence.
+10. Classify the event.
+
+### Expected Outcome
+
+Demonstrate the ability to investigate file-integrity alerts.
+
+---
+
+## 7. Scenario 05 — Unauthorized Configuration Change
+
+### Objective
+
+Investigate an unexpected configuration change on a monitored laboratory endpoint.
+
+### Activity
+
+Perform a controlled configuration change within the laboratory.
+
+### Investigation Tasks
+
+1. Identify the changed configuration.
+2. Identify the host.
+3. Identify the user.
+4. Identify the timestamp.
+5. Locate the corresponding Wazuh event.
+6. Determine whether the change was authorized.
+7. Search for related process activity.
+8. Review authentication events.
+9. Determine potential impact.
+10. Document the finding.
+
+### Expected Outcome
+
+Demonstrate monitoring and investigation of configuration changes.
+
+---
+
+## 8. Scenario 06 — Suspicious Network Connection
+
+### Objective
+
+Investigate an unexpected network connection generated by a monitored endpoint.
+
+### Activity
+
+Generate a controlled network connection to an authorized laboratory system.
+
+### Investigation Tasks
+
+1. Identify the source host.
+2. Identify the destination.
+3. Identify the destination port.
+4. Identify the protocol.
+5. Record the timestamp.
+6. Identify the process responsible where telemetry permits.
+7. Review related authentication activity.
+8. Search for related alerts.
+9. Determine whether the connection was expected.
+10. Document the result.
+
+### Expected Outcome
+
+Demonstrate network-event investigation and correlation.
+
+---
+
+## 9. Scenario 07 — Multiple Alerts From One Endpoint
+
+### Objective
+
+Determine whether multiple alerts from one endpoint are related.
+
+### Example Sequence
+
+**Authentication Failure → Process Execution → File Modification → Network Activity**
+
+### Investigation Tasks
+
+1. Identify all alerts.
+2. Compare timestamps.
+3. Identify the common host.
+4. Identify the common user.
+5. Correlate processes.
+6. Correlate files.
+7. Correlate network activity.
+8. Build a timeline.
+9. Determine whether the alerts represent one activity chain.
+10. Assess potential impact.
+11. Classify the activity.
+
+### Expected Outcome
+
+Demonstrate multi-event correlation.
+
+---
+
+## 10. Scenario 08 — Repeated Authentication Failures
+
+### Objective
+
+Investigate repeated authentication failures occurring over a short period.
+
+### Investigation Tasks
+
+1. Identify the affected account.
+2. Identify the source address.
+3. Count failed attempts.
+4. Determine the time period.
+5. Check whether multiple accounts were targeted.
+6. Search for successful authentication.
+7. Review activity following any successful login.
+8. Determine whether the activity is consistent with user error or automated behavior.
+9. Document supporting evidence.
+10. Classify the activity.
+
+### Expected Outcome
+
+Demonstrate investigation of potentially suspicious authentication patterns.
+
+---
+
+## 11. Scenario 09 — Account Activity Investigation
+
+### Objective
+
+Investigate unusual activity associated with a monitored user account.
+
+### Investigation Tasks
+
+1. Identify the account.
+2. Review authentication history.
+3. Identify source addresses.
+4. Review login times.
+5. Review process activity.
+6. Review file activity.
+7. Review network activity.
+8. Correlate related alerts.
+9. Determine whether the activity is expected.
+10. Document the conclusion.
+
+### Expected Outcome
+
+Demonstrate user-centric security investigation.
+
+---
+
+## 12. Scenario 10 — Custom Detection Rule
+
+### Objective
+
+Create and validate a custom Wazuh detection rule for a controlled laboratory event.
+
+### Tasks
+
+1. Define the detection objective.
+2. Identify the relevant event source.
+3. Analyze the event structure.
+4. Design the detection logic.
+5. Implement the custom rule.
+6. Generate the test event.
+7. Verify rule matching.
+8. Confirm alert generation.
+9. Review false positives.
+10. Tune the rule if required.
+11. Retest the rule.
+12. Document the final detection.
+
+### Expected Outcome
+
+Demonstrate basic detection-engineering capability.
+
+---
+
+## 13. Scenario 11 — False Positive Investigation
+
+### Objective
+
+Determine whether a Wazuh alert represents legitimate activity.
+
+### Activity
+
+Generate or identify an alert caused by an authorized laboratory action.
+
+### Investigation Tasks
+
+1. Identify the alert.
+2. Identify the triggering rule.
+3. Review the event.
+4. Identify the user.
+5. Identify the host.
+6. Review the timeline.
+7. Determine whether the activity was authorized.
+8. Identify why the rule triggered.
+9. Determine whether tuning is appropriate.
+10. Document the decision.
+
+### Expected Outcome
+
+Demonstrate false-positive analysis and detection tuning.
+
+---
+
+## 14. Scenario 12 — Multi-Stage Investigation
+
+### Objective
+
+Perform an end-to-end investigation involving multiple security events.
+
+### Example Sequence
+
+**Failed Authentication**
+
+↓
+
+**Successful Authentication**
+
+↓
+
+**Process Execution**
+
+↓
+
+**File Modification**
+
+↓
+
+**Network Connection**
+
+### Investigation Tasks
+
+1. Identify the initial alert.
+2. Define the investigation question.
+3. Establish the investigation time window.
+4. Identify the affected host.
+5. Identify the affected user.
+6. Collect related events.
+7. Build a timeline.
+8. Analyze authentication activity.
+9. Analyze process activity.
+10. Analyze file activity.
+11. Analyze network activity.
+12. Identify relevant indicators.
+13. Determine scope.
+14. Assess potential impact.
+15. Investigate probable root cause.
+16. Classify the activity.
+17. Determine whether incident response is required.
+18. Document the investigation.
+
+### Expected Outcome
+
+Demonstrate an end-to-end SOC investigation workflow.
+
+---
+
+## 15. Scenario Documentation Template
+
+Use the following structure for every completed scenario.
+
+### Scenario Information
+
+| Field | Value |
+|---|---|
+| Scenario ID | |
+| Scenario Name | |
+| Date | |
+| Analyst | |
+| Environment | |
+| Affected Host | |
+| User | |
+| Initial Alert | |
+| Rule ID | |
+
+### Objective
+
+Describe what the scenario is designed to demonstrate.
+
+### Activity
+
+Describe the controlled activity performed.
+
+### Detection
+
+Describe how Wazuh detected the activity.
+
+### Investigation
+
+Document the investigation steps.
+
+### Evidence
+
+List the collected evidence.
+
+### Timeline
+
+Record important events chronologically.
+
+### Findings
+
+Document confirmed and suspected findings.
+
+### Impact
+
+Describe observed or potential impact.
+
+### Classification
+
+Select:
+
+- Benign
+- False Positive
+- Suspicious
+- Malicious
+- Inconclusive
+
+### Response
+
+Describe any authorized response actions.
+
+### Conclusion
+
+Summarize the final investigation result.
+
+---
+
+## 16. Scenario Evidence
+
+Evidence should demonstrate that the scenario was actually performed.
+
+Recommended evidence includes:
+
+- Wazuh Dashboard screenshots
+- Alert details
+- Event details
+- Relevant logs
+- Timeline
+- Process information
+- File information
+- Network information
+- Investigation report
+
+Store evidence in the appropriate:
+
+```text
+Evidence/
+```
+
+directory.
+
+Remove sensitive information before publishing to GitHub.
+
+---
+
+## 17. Scenario Difficulty Levels
+
+The scenarios can be organized by increasing complexity.
+
+### Beginner
+
+- Failed authentication
+- File integrity
+- Basic process monitoring
+- Basic alert analysis
+
+### Intermediate
+
+- Authentication correlation
+- Network activity investigation
+- False-positive analysis
+- Multi-alert investigation
+- Custom detection
+
+### Advanced
+
+- Multi-stage investigation
+- Cross-event correlation
+- Root-cause analysis
+- Detection tuning
+- End-to-end incident investigation
+
+---
+
+## 18. Scenario Completion Checklist
+
+### Preparation
+
+- [ ] Laboratory environment verified.
+- [ ] Wazuh Manager operational.
+- [ ] Dashboard accessible.
+- [ ] Required agent connected.
+- [ ] Monitoring verified.
+
+### Execution
+
+- [ ] Scenario objective defined.
+- [ ] Controlled activity performed.
+- [ ] Expected telemetry generated.
+- [ ] Detection verified.
+
+### Investigation
+
+- [ ] Alert identified.
+- [ ] Host identified.
+- [ ] User identified.
+- [ ] Timeline created.
+- [ ] Related events correlated.
+- [ ] Evidence collected.
+- [ ] Scope assessed.
+- [ ] Impact assessed.
+- [ ] Root cause investigated.
+
+### Completion
+
+- [ ] Activity classified.
+- [ ] Response performed if required.
+- [ ] Evidence stored.
+- [ ] Report completed.
+- [ ] Lessons learned recorded.
+
+---
+
+## 19. Portfolio Mapping
+
+The scenarios demonstrate the following SOC capabilities:
+
+| Scenario | Primary Skill |
+|---|---|
+| 01 | Authentication Monitoring |
+| 02 | Event Correlation |
+| 03 | Process Investigation |
+| 04 | File Integrity Monitoring |
+| 05 | Configuration Monitoring |
+| 06 | Network Investigation |
+| 07 | Multi-Alert Correlation |
+| 08 | Authentication Investigation |
+| 09 | User Activity Investigation |
+| 10 | Detection Engineering |
+| 11 | False-Positive Analysis |
+| 12 | End-to-End Incident Investigation |
+
+---
+
+## 20. Final Outcome
+
+Completion of these scenarios demonstrates practical SOC capabilities beyond theoretical knowledge.
+
+The overall workflow is:
+
+**Monitor → Detect → Alert → Triage → Investigate → Correlate → Assess → Respond → Document**
+
+The scenarios should be repeated as the laboratory evolves and additional telemetry, detection rules, and monitoring capabilities are added.
+
+---
+
+## 21. Next Step
+
+After completing the scenario documentation, continue with:
+
+**12-Evidence.md**
+
+The next document will define how laboratory screenshots, logs, alert outputs, investigation artifacts, and other proof-of-work materials should be collected, organized, sanitized, and documented.
