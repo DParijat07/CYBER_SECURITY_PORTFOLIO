@@ -1,0 +1,966 @@
+# Incident Response
+
+## Purpose
+
+Incident response is the structured process used to contain, investigate, eradicate, recover from, and learn from a confirmed or suspected security incident.
+
+In this Windows Security Monitoring Lab, incident response begins after suspicious activity has been identified through Windows telemetry and Wazuh monitoring.
+
+The response workflow is:
+
+**Detect → Validate → Investigate → Contain → Eradicate → Recover → Verify → Document → Improve**
+
+---
+
+## Incident Response Objectives
+
+The primary objectives are:
+
+* Validate suspected security incidents.
+* Limit the impact of malicious activity.
+* Contain affected systems or accounts.
+* Identify the root cause.
+* Remove the source of compromise.
+* Restore normal operations.
+* Verify that malicious activity has stopped.
+* Preserve investigation evidence.
+* Document response actions.
+* Identify lessons learned.
+* Improve future detection and response.
+
+---
+
+# Incident Response Lifecycle
+
+The lab follows a simplified incident response lifecycle:
+
+```
+Preparation
+    ↓
+Detection
+    ↓
+Analysis
+    ↓
+Containment
+    ↓
+Eradication
+    ↓
+Recovery
+    ↓
+Verification
+    ↓
+Lessons Learned
+```
+
+---
+
+# Preparation
+
+Preparation establishes the capabilities required before an incident occurs.
+
+In this lab, preparation includes:
+
+* Windows monitoring configuration
+* Wazuh Agent
+* Wazuh Manager
+* Windows Event Logs
+* PowerShell logging
+* Sysmon telemetry
+* Detection rules
+* Investigation procedures
+* Evidence storage
+* Incident documentation
+
+The lab environment should be tested before performing incident-response scenarios.
+
+---
+
+# Detection
+
+Detection identifies potentially suspicious activity.
+
+Examples:
+
+* Repeated failed authentication
+* Successful login after repeated failures
+* Unexpected privileged logon
+* Suspicious process execution
+* Suspicious PowerShell activity
+* Unexpected account creation
+* Account lockout
+* Multiple correlated security events
+
+Wazuh provides centralized visibility into the endpoint telemetry.
+
+---
+
+# Validation
+
+Before initiating response actions, validate the alert.
+
+Determine:
+
+* What triggered the alert?
+* Which endpoint is affected?
+* Which account is involved?
+* What event occurred?
+* When did it occur?
+* Is the activity expected?
+* Is the activity authorized?
+* Are related events present?
+
+Do not perform disruptive response actions based solely on an unvalidated alert.
+
+---
+
+# Investigation
+
+Investigation determines what happened and how the activity developed.
+
+Investigate:
+
+* Authentication
+* User activity
+* Privileged access
+* Process creation
+* PowerShell activity
+* Account activity
+* Parent-child processes
+* Source IP
+* Timeline
+* Related events
+* Possible IoCs
+
+The detailed investigation procedure is documented in:
+
+```
+11-Incident-Investigation.md
+```
+
+---
+
+# Incident Classification
+
+Classify the incident based on available evidence.
+
+| Classification     | Meaning                                    |
+| ------------------ | ------------------------------------------ |
+| Benign             | Expected or legitimate activity            |
+| Suspicious         | Activity requires additional investigation |
+| Confirmed Incident | Evidence indicates a security incident     |
+| False Positive     | Detection triggered incorrectly            |
+
+Example:
+
+```
+Repeated failed login
+      ↓
+Investigation
+      ↓
+Authorized user mistyped password
+      ↓
+Benign
+```
+
+Another example:
+
+```
+Repeated failed login
+      ↓
+Successful login
+      ↓
+Privileged activity
+      ↓
+Suspicious PowerShell
+      ↓
+Confirmed Incident
+```
+
+---
+
+# Incident Severity
+
+Severity should reflect potential impact and confidence.
+
+| Severity | Example                                              |
+| -------- | ---------------------------------------------------- |
+| Low      | Isolated suspicious event with low impact            |
+| Medium   | Repeated suspicious activity requiring investigation |
+| High     | Confirmed unauthorized access or privileged activity |
+| Critical | Significant compromise or major business impact      |
+
+Severity should be reassessed as new evidence becomes available.
+
+---
+
+# Containment
+
+Containment limits the ability of the suspected threat to continue.
+
+Possible actions in a real environment include:
+
+* Isolate the endpoint
+* Disable a compromised account
+* Terminate malicious processes
+* Block malicious network communication
+* Restrict affected services
+* Reset compromised credentials
+
+In this home lab, containment actions should remain controlled and reversible.
+
+---
+
+# Short-Term Containment
+
+Short-term containment attempts to immediately reduce risk.
+
+Examples:
+
+```
+Suspected compromised account
+         ↓
+Temporarily disable account
+
+Suspected endpoint compromise
+         ↓
+Isolate endpoint
+
+Malicious process
+         ↓
+Stop process
+```
+
+The exact response depends on the incident and organizational procedures.
+
+---
+
+# Long-Term Containment
+
+Long-term containment reduces the possibility of recurrence while the root cause is investigated.
+
+Examples:
+
+* Apply security updates
+* Strengthen authentication controls
+* Remove unnecessary privileges
+* Improve endpoint monitoring
+* Restrict PowerShell where appropriate
+* Improve detection rules
+* Correct insecure configurations
+
+---
+
+# Eradication
+
+Eradication removes the root cause or malicious artifacts.
+
+Possible activities:
+
+* Remove malicious files
+* Remove unauthorized accounts
+* Remove persistence mechanisms
+* Terminate malicious processes
+* Patch exploited vulnerabilities
+* Reset compromised credentials
+* Correct security misconfigurations
+
+Eradication should be performed only after sufficient investigation and evidence collection.
+
+---
+
+# Recovery
+
+Recovery returns affected systems to a trusted operational state.
+
+Possible actions:
+
+* Restore affected services
+* Re-enable legitimate accounts
+* Restore systems from trusted backups
+* Apply security patches
+* Reconfigure affected systems
+* Verify endpoint monitoring
+* Monitor the system closely
+
+Recovery should not be considered complete until security controls are verified.
+
+---
+
+# Verification
+
+After containment, eradication, and recovery, verify that the incident has stopped.
+
+Check:
+
+* No repeated malicious alerts
+* No suspicious processes
+* No unexpected authentication
+* No suspicious PowerShell activity
+* No unauthorized accounts
+* No recurring indicators
+* Wazuh telemetry remains available
+
+Example:
+
+```
+Containment
+    ↓
+Eradication
+    ↓
+Recovery
+    ↓
+Monitoring
+    ↓
+No recurrence
+    ↓
+Incident resolved
+```
+
+---
+
+# Wazuh During Incident Response
+
+Wazuh supports several stages of the response process.
+
+| Response Stage        | Wazuh Use                          |
+| --------------------- | ---------------------------------- |
+| Detection             | Alerts and security events         |
+| Validation            | Event details and rule information |
+| Investigation         | Search and event correlation       |
+| Containment Support   | Identify affected endpoint/account |
+| Recovery Verification | Monitor for recurring activity     |
+| Documentation         | Alert and event evidence           |
+
+Wazuh is primarily a monitoring and detection platform; actual containment and remediation actions depend on the environment and authorized response mechanisms.
+
+---
+
+# Wazuh Incident Response Workflow
+
+Use the following workflow during the lab:
+
+```
+Wazuh Alert
+    ↓
+Identify Endpoint
+    ↓
+Identify User
+    ↓
+Review Event
+    ↓
+Search Related Events
+    ↓
+Build Timeline
+    ↓
+Determine Incident
+    ↓
+Collect Evidence
+    ↓
+Contain
+    ↓
+Eradicate
+    ↓
+Recover
+    ↓
+Verify
+    ↓
+Document
+```
+
+---
+
+# Authentication Incident Response
+
+For suspicious authentication activity:
+
+### Step 1
+
+Investigate:
+
+```
+4625
+```
+
+### Step 2
+
+Check for:
+
+```
+4624
+```
+
+### Step 3
+
+Check privileged activity:
+
+```
+4672
+```
+
+### Step 4
+
+Check account lockout:
+
+```
+4740
+```
+
+### Step 5
+
+Identify:
+
+* Username
+* Source IP
+* Logon type
+* Timestamp
+* Workstation
+
+### Step 6
+
+Determine whether the account should be:
+
+* Monitored
+* Locked
+* Disabled
+* Credential-reset
+* Escalated
+
+Any real-world account action must follow authorized procedures.
+
+---
+
+# Process Incident Response
+
+For suspicious process activity:
+
+Investigate:
+
+```
+4688
+Sysmon Event 1
+```
+
+Determine:
+
+* Process name
+* Executable path
+* Command line
+* Parent process
+* User
+* Timestamp
+* Process ID
+
+Possible response actions:
+
+* Terminate malicious process
+* Isolate endpoint
+* Preserve evidence
+* Identify persistence
+* Investigate related processes
+
+---
+
+# PowerShell Incident Response
+
+For suspicious PowerShell activity, investigate:
+
+```
+400
+403
+4103
+4104
+4688
+Sysmon Event 1
+```
+
+Determine:
+
+* Who executed PowerShell?
+* Which process launched it?
+* What command was executed?
+* What script block was recorded?
+* Was the activity authorized?
+* Did additional processes execute?
+
+Possible response actions include:
+
+* Isolate affected endpoint
+* Stop malicious process
+* Disable compromised account
+* Preserve PowerShell evidence
+* Investigate persistence
+* Search for related activity
+
+---
+
+# Account Incident Response
+
+For unexpected account creation or modification:
+
+Investigate:
+
+```
+4720
+4738
+4740
+4672
+```
+
+Determine:
+
+* Account name
+* Creator
+* Timestamp
+* Source
+* Privileges
+* Subsequent logon activity
+
+Possible actions:
+
+* Disable unauthorized account
+* Remove inappropriate privileges
+* Reset credentials
+* Investigate account usage
+* Search for related activity
+
+---
+
+# Incident Response Decision Table
+
+| Observation                    | Assessment           | Immediate Action         | Next Step              |
+| ------------------------------ | -------------------- | ------------------------ | ---------------------- |
+| Normal user activity           | Benign               | No containment           | Document               |
+| Isolated suspicious event      | Low confidence       | Monitor                  | Investigate            |
+| Repeated suspicious events     | Elevated risk        | Increase monitoring      | Investigate            |
+| Suspicious authentication      | Potential compromise | Protect account/endpoint | Correlate events       |
+| Suspicious privileged activity | High concern         | Escalate                 | Investigate scope      |
+| Suspicious PowerShell          | High concern         | Consider containment     | Investigate script     |
+| Unauthorized account           | High concern         | Protect account          | Investigate usage      |
+| Confirmed compromise           | Incident             | Contain                  | Eradicate              |
+| Major compromise               | Critical incident    | Immediate containment    | Full incident response |
+
+---
+
+# Evidence Preservation
+
+Before taking destructive response actions, preserve relevant evidence when practical.
+
+Collect:
+
+* Wazuh alert screenshots
+* Event details
+* Event IDs
+* Timestamps
+* Usernames
+* Source IPs
+* Process information
+* Command lines
+* PowerShell events
+* Sysmon events
+* IoCs
+* Investigation timeline
+
+Store evidence under:
+
+```
+Evidence/
+```
+
+Do not unnecessarily modify or delete evidence before it has been documented.
+
+---
+
+# Incident Documentation
+
+Each confirmed or significant incident should produce a clear record.
+
+Recommended structure:
+
+```
+Reports/
+└── Incident-Report.md
+```
+
+Include:
+
+* Incident ID
+* Date and time
+* Affected endpoint
+* Affected account
+* Detection source
+* Initial alert
+* Investigation summary
+* Timeline
+* Evidence
+* IoCs
+* Root cause
+* Impact
+* Containment actions
+* Eradication actions
+* Recovery actions
+* Verification
+* Final disposition
+* Lessons learned
+
+---
+
+# Incident Timeline Example
+
+Example controlled lab incident:
+
+| Time     | Event        | Investigation Result           |
+| -------- | ------------ | ------------------------------ |
+| 10:00:01 | 4625         | Failed authentication          |
+| 10:00:03 | 4625         | Repeated failure               |
+| 10:00:06 | 4624         | Successful authentication      |
+| 10:00:07 | 4672         | Privileged session             |
+| 10:00:15 | 4688         | PowerShell process             |
+| 10:00:16 | 4104         | Script block recorded          |
+| 10:01:00 | Response     | Endpoint isolated              |
+| 10:02:00 | Verification | No further suspicious activity |
+
+This is a controlled lab example, not evidence of a real compromise.
+
+---
+
+# Hands-On Incident Response Procedure
+
+## Step 1 — Generate Controlled Activity
+
+Use the Windows lab to generate:
+
+* Failed authentication
+* Successful authentication
+* Privileged logon
+* Process creation
+* PowerShell activity
+
+---
+
+## Step 2 — Detect
+
+Confirm that Wazuh receives the generated telemetry and relevant detections.
+
+---
+
+## Step 3 — Investigate
+
+Use the procedures in:
+
+```
+11-Incident-Investigation.md
+```
+
+Correlate:
+
+```
+4625
+4624
+4672
+4688
+4104
+```
+
+---
+
+## Step 4 — Classify
+
+Determine whether the activity is:
+
+```
+Benign
+Suspicious
+Confirmed Incident
+```
+
+For the lab, clearly label simulated incidents as **controlled lab scenarios**.
+
+---
+
+## Step 5 — Preserve Evidence
+
+Capture:
+
+* Alert
+* Event details
+* Timeline
+* Relevant fields
+* Detection rule
+* Investigation notes
+
+---
+
+## Step 6 — Contain
+
+Perform an authorized and reversible containment action in the lab.
+
+Examples:
+
+* Stop a controlled test process.
+* Disable a dedicated test account.
+* Disconnect the test endpoint from the lab network.
+
+Do not perform destructive actions against systems outside the authorized lab.
+
+---
+
+## Step 7 — Eradicate
+
+Remove the controlled test condition.
+
+Examples:
+
+* Remove a test account.
+* Stop test processes.
+* Restore changed lab settings.
+* Remove intentionally created test artifacts.
+
+---
+
+## Step 8 — Recover
+
+Return the lab environment to its expected state.
+
+Verify:
+
+* Windows services
+* Wazuh Agent
+* Logging
+* Monitoring
+* Network connectivity
+* Test accounts
+
+---
+
+## Step 9 — Verify
+
+Search Wazuh for recurring suspicious activity.
+
+Confirm:
+
+```
+No unexpected recurrence
+       +
+Telemetry working
+       +
+Detection working
+```
+
+---
+
+## Step 10 — Document
+
+Record the entire incident lifecycle.
+
+```
+Detect
+  ↓
+Investigate
+  ↓
+Contain
+  ↓
+Eradicate
+  ↓
+Recover
+  ↓
+Verify
+  ↓
+Document
+```
+
+---
+
+# Incident Response Scenarios
+
+## Scenario 1 — Authentication Incident
+
+Simulate:
+
+```
+4625
+4625
+4624
+4672
+```
+
+Investigate the authentication sequence and perform a controlled containment action.
+
+---
+
+## Scenario 2 — Suspicious Process
+
+Generate:
+
+```
+4688
+Sysmon 1
+```
+
+Investigate the process tree and determine whether the process is expected.
+
+---
+
+## Scenario 3 — PowerShell Incident
+
+Generate:
+
+```
+4688
+4104
+```
+
+Investigate the PowerShell execution and perform controlled response actions.
+
+---
+
+## Scenario 4 — Unauthorized Account
+
+Generate controlled account activity:
+
+```
+4720
+4738
+```
+
+Investigate the account and remove the test condition after collecting evidence.
+
+---
+
+## Scenario 5 — Full Incident Lifecycle
+
+Simulate:
+
+```
+Authentication
+     ↓
+Privileged Access
+     ↓
+PowerShell
+     ↓
+Process Activity
+     ↓
+Detection
+     ↓
+Investigation
+     ↓
+Containment
+     ↓
+Eradication
+     ↓
+Recovery
+     ↓
+Verification
+```
+
+Document the complete lifecycle.
+
+---
+
+# Incident Response Validation Matrix
+
+| Scenario                  | Telemetry       | Detection | Investigation | Response | Verification |
+| ------------------------- | --------------- | --------- | ------------- | -------- | ------------ |
+| Failed authentication     | 4625            | Yes       | Yes           | Yes      | Yes          |
+| Successful authentication | 4624            | Yes       | Yes           | Yes      | Yes          |
+| Privileged logon          | 4672            | Yes       | Yes           | Yes      | Yes          |
+| Process execution         | 4688 / Sysmon 1 | Yes       | Yes           | Yes      | Yes          |
+| PowerShell                | 4104 / 4688     | Yes       | Yes           | Yes      | Yes          |
+| Account activity          | 4720 / 4738     | Yes       | Yes           | Yes      | Yes          |
+
+---
+
+# Common Incident Response Mistakes
+
+Avoid:
+
+* Containing an endpoint before validating the alert.
+* Destroying evidence unnecessarily.
+* Ignoring related events.
+* Failing to identify the affected account.
+* Failing to establish a timeline.
+* Treating every alert as a confirmed incident.
+* Performing unauthorized response actions.
+* Forgetting recovery verification.
+* Failing to document response actions.
+* Closing an incident without checking for recurrence.
+
+---
+
+# Incident Response Checklist
+
+* [ ] Alert detected
+* [ ] Alert validated
+* [ ] Endpoint identified
+* [ ] Account identified
+* [ ] Investigation completed
+* [ ] Timeline created
+* [ ] Related events correlated
+* [ ] Incident classified
+* [ ] Severity assigned
+* [ ] Evidence preserved
+* [ ] IoCs documented
+* [ ] Containment performed
+* [ ] Root cause investigated
+* [ ] Eradication completed
+* [ ] Recovery completed
+* [ ] Verification performed
+* [ ] No recurrence confirmed
+* [ ] Incident report completed
+* [ ] Lessons learned documented
+
+---
+
+# Professional SOC Relevance
+
+Incident response demonstrates the ability to move from detection to action.
+
+A SOC analyst should understand:
+
+* When an alert requires escalation.
+* How to validate suspicious activity.
+* How to support containment.
+* How to preserve evidence.
+* How to communicate incident status.
+* How to verify recovery.
+* How to document the complete incident lifecycle.
+
+The practical workflow is:
+
+**Detect → Investigate → Contain → Eradicate → Recover → Verify → Document**
+
+This is a foundational skill for SOC L1/L2 and defensive security operations.
+
+---
+
+# Conclusion
+
+Incident response converts investigation findings into controlled security actions.
+
+The Windows Security Monitoring Lab demonstrates the complete defensive workflow:
+
+**Detect → Validate → Investigate → Contain → Eradicate → Recover → Verify → Document → Improve**
+
+The objective is not simply to stop suspicious activity.
+
+The objective is to:
+
+* Understand what happened.
+* Limit the impact.
+* Preserve evidence.
+* Remove the cause.
+* Restore a trusted state.
+* Verify that the activity does not recur.
+* Improve future detection and response.
+
+---
+
+## Related Documentation
+
+* `07-Alert-Analysis.md`
+* `08-Authentication-Monitoring.md`
+* `09-Process-Monitoring.md`
+* `10-PowerShell-Monitoring.md`
+* `11-Incident-Investigation.md`
+* `13-Scenarios.md`
+* `14-Troubleshooting.md`
+* `15-Lessons-Learned.md`
