@@ -27,7 +27,7 @@ A detection rule is logic used by a security monitoring system to identify an ev
 
 In simple terms:
 
-```text
+```
 Log/Event
     ↓
 Detection Rule
@@ -39,7 +39,7 @@ Security Alert
 
 For example:
 
-```text
+```
 Failed SSH Authentication
         ↓
 Detection Logic
@@ -65,26 +65,26 @@ Detection rules help prioritize potentially important activity.
 
 Without detection:
 
-```text
+```
 Thousands of Events
         ↓
-Manual Review
+  Manual Review
         ↓
-Difficult to Monitor
+  Difficult to Monitor
 ```
 
 With detection:
 
-```text
+```
 Thousands of Events
         ↓
-Detection Rules
+   Detection Rules
         ↓
-Relevant Security Events
+ Relevant Security Events
         ↓
-Alerts
+       Alerts
         ↓
-SOC Analyst
+    SOC Analyst
 ```
 
 Detection therefore helps reduce the amount of data that requires immediate human attention.
@@ -95,24 +95,24 @@ Detection therefore helps reduce the amount of data that requires immediate huma
 
 The complete monitoring workflow is:
 
-```text
+```
 User / System Activity
           ↓
         Event
           ↓
-     Linux Logging
+   Linux Logging
           ↓
-       Local Log
+      Local Log
           ↓
     Wazuh Agent
           ↓
-   Wazuh Server
+    Wazuh Server
           ↓
       Detection
           ↓
         Alert
           ↓
-       Analysis
+      Analysis
           ↓
     Investigation
           ↓
@@ -140,22 +140,22 @@ Wazuh analyzes collected events and applies detection rules to them.
 
 Simplified architecture:
 
-```text
+```
 Ubuntu 22.04 LTS
        ↓
-Linux Logs
+  Linux Logs
        ↓
-Wazuh Agent
+  Wazuh Agent
        ↓
-Wazuh Server
+  Wazuh Server
        ↓
 Wazuh Analysis Engine
        ↓
-Detection Rules
+  Detection Rules
        ↓
-Alerts
+      Alerts
        ↓
-Wazuh Dashboard
+ Wazuh Dashboard
 ```
 
 The Wazuh detection engine evaluates incoming events and determines whether configured detection conditions are satisfied.
@@ -185,23 +185,23 @@ Repeated failed SSH authentication attempts are an important security monitoring
 
 A simplified detection concept is:
 
-```text
+```
 SSH Authentication Attempt
           ↓
 Authentication Failure
           ↓
-Detection Logic
+   Detection Logic
           ↓
 Potential Suspicious Activity
           ↓
-Alert
+         Alert
 ```
 
 A single failed login does not necessarily indicate an attack.
 
 For example:
 
-```text
+```
 1 Failed Login
       ↓
 Could be User Error
@@ -209,14 +209,14 @@ Could be User Error
 
 Multiple failures may be more interesting:
 
-```text
+```
 Multiple Failed Logins
           ↓
-Same / Related Source
+  Same / Related Source
           ↓
 Potential Brute-Force Activity
           ↓
-Investigation
+     Investigation
 ```
 
 The actual Wazuh rule and alert level depend on the event and Wazuh's configured rules.
@@ -236,7 +236,7 @@ A successful login can help answer:
 
 The detection concept is:
 
-```text
+```
 Successful SSH Login
         ↓
 Authentication Event
@@ -258,19 +258,19 @@ The use of `sudo` is an important Linux security event.
 
 Example:
 
-```bash
+```
 sudo whoami
 ```
 
 The event may be recorded in:
 
-```text
+```
 /var/log/auth.log
 ```
 
 The detection concept is:
 
-```text
+```
 User
  ↓
 sudo Command
@@ -286,22 +286,22 @@ Not every `sudo` command is suspicious.
 
 For example:
 
-```text
+```
 Authorized Administrator
         ↓
-sudo apt update
+   sudo apt update
         ↓
-Normal Activity
+   Normal Activity
 ```
 
 But:
 
-```text
+```
 Unexpected Account
         ↓
-sudo Command
+    sudo Command
         ↓
-Potentially Suspicious
+  Potentially Suspicious
 ```
 
 The context determines the security significance.
@@ -314,7 +314,7 @@ Account creation or modification can be security-relevant.
 
 Examples:
 
-```text
+```
 New User Created
 User Modified
 Group Membership Changed
@@ -323,12 +323,12 @@ User Disabled
 
 Simplified detection logic:
 
-```text
+```
 Account Change
       ↓
 Security Event
       ↓
-Detection
+   Detection
       ↓
 Alert / Investigation
 ```
@@ -343,7 +343,7 @@ Process execution can provide important endpoint security information.
 
 Example:
 
-```text
+```
 New Process
     ↓
 Process Information
@@ -357,7 +357,7 @@ A process itself is not necessarily malicious.
 
 For example:
 
-```text
+```
 /usr/bin/bash
 ```
 
@@ -384,7 +384,7 @@ Service changes can be useful security indicators.
 
 Examples:
 
-```text
+```
 Service Started
 Service Stopped
 Service Restarted
@@ -393,16 +393,16 @@ Unexpected Service Activity
 
 Simplified workflow:
 
-```text
+```
 Service Activity
        ↓
-System Event
+  System Event
        ↓
-Detection
+   Detection
        ↓
-Alert
+      Alert
        ↓
-Investigation
+  Investigation
 ```
 
 For example, an unexpected service start may deserve investigation.
@@ -415,7 +415,7 @@ Shell activity can be security-relevant because attackers frequently use command
 
 Examples include:
 
-```text
+```
 Command Execution
 Shell Session
 Administrative Command
@@ -426,7 +426,7 @@ However, command-line activity must be interpreted carefully.
 
 A command such as:
 
-```bash
+```
 sudo systemctl status ssh
 ```
 
@@ -444,16 +444,16 @@ Multiple events can provide better context.
 
 For example:
 
-```text
+```
 Failed SSH Login
         ↓
 Failed SSH Login
         ↓
 Successful SSH Login
         ↓
-sudo Activity
+   sudo Activity
         ↓
-Suspicious Process
+  Suspicious Process
 ```
 
 Individually, some events may appear normal.
@@ -474,16 +474,16 @@ At a beginner level, think of alert severity as a way to help prioritize investi
 
 A simplified model is:
 
-```text
+```
 Lower Severity
       ↓
 Informational / Low Concern
       ↓
-Medium Concern
+   Medium Concern
       ↓
-High Concern
+    High Concern
       ↓
-Critical Concern
+ Critical Concern
 ```
 
 The exact severity and alert level depend on the Wazuh rule that matches the event.
@@ -502,7 +502,7 @@ These terms should not be confused.
 
 The logic used to identify an event.
 
-```text
+```
 Condition
    ↓
 Rule Match
@@ -512,21 +512,21 @@ Rule Match
 
 The security notification produced when the detection condition is satisfied.
 
-```text
+```
 Rule Match
    ↓
-Alert
+  Alert
 ```
 
 Therefore:
 
-```text
+```
 Event
- ↓
+  ↓
 Rule Evaluation
- ↓
+  ↓
 Rule Match
- ↓
+  ↓
 Alert
 ```
 
@@ -540,14 +540,14 @@ For this beginner lab, the preferred approach is to first understand and validat
 
 This keeps the learning process focused on:
 
-```text
+```
 Understand
    ↓
-Test
+  Test
    ↓
-Observe
+ Observe
    ↓
-Analyze
+ Analyze
    ↓
 Document
 ```
@@ -562,14 +562,14 @@ Wazuh's rule system contains predefined rules and supports custom rules.
 
 For learning purposes, the important concept is:
 
-```text
+```
 Wazuh Event
      ↓
-Rules Engine
+ Rules Engine
      ↓
-Matching Rule
+ Matching Rule
      ↓
-Alert
+     Alert
 ```
 
 Custom detection rules can be introduced later when there is a specific monitoring requirement that cannot be handled adequately by existing rules.
@@ -582,7 +582,7 @@ The current lab focuses on using and validating existing detections first.
 
 Each detection should follow a controlled testing process.
 
-```text
+```
 1. Define Scenario
        ↓
 2. Generate Controlled Event
@@ -610,13 +610,13 @@ Detection testing must use the authorized home lab.
 
 Primary endpoint:
 
-```text
+```
 Ubuntu 22.04 LTS
 ```
 
 Monitoring:
 
-```text
+```
 Wazuh Agent
       ↓
 Wazuh Server
@@ -642,26 +642,26 @@ Use an intentionally incorrect password.
 
 Then verify the local log:
 
-```bash
+```
 sudo grep "Failed password" /var/log/auth.log
 ```
 
 Expected flow:
 
-```text
+```
 SSH Attempt
     ↓
 Authentication Failure
     ↓
-auth.log
+   auth.log
     ↓
 Wazuh Agent
     ↓
 Wazuh Server
     ↓
-Detection
+ Detection
     ↓
-Alert
+   Alert
 ```
 
 Do not perform repeated password guessing.
@@ -678,7 +678,7 @@ Perform a normal authorized SSH login.
 
 Then check:
 
-```bash
+```
 sudo grep "Accepted" /var/log/auth.log
 ```
 
@@ -702,13 +702,13 @@ Observe a privilege-related event.
 
 Run:
 
-```bash
+```
 sudo whoami
 ```
 
 Then inspect:
 
-```bash
+```
 sudo grep "sudo:" /var/log/auth.log
 ```
 
@@ -716,14 +716,14 @@ Look for the corresponding event in Wazuh.
 
 The basic flow is:
 
-```text
+```
 sudo Command
      ↓
 Authentication Log
      ↓
 Wazuh Collection
      ↓
-Detection
+  Detection
      ↓
 Alert / Event
 ```
@@ -734,7 +734,7 @@ Alert / Event
 
 Use a harmless service-status command:
 
-```bash
+```
 systemctl status ssh
 ```
 
@@ -742,7 +742,7 @@ This does not change the service state.
 
 Then inspect recent journal entries:
 
-```bash
+```
 sudo journalctl --since "10 minutes ago"
 ```
 
@@ -756,7 +756,7 @@ Do not stop or modify important services merely to generate an event.
 
 View current processes:
 
-```bash
+```
 ps aux
 ```
 
@@ -764,7 +764,7 @@ Then inspect the relevant monitoring data available in Wazuh.
 
 The objective is to understand:
 
-```text
+```
 Process
   ↓
 Endpoint Telemetry
@@ -780,47 +780,336 @@ Detailed process detection is covered later in:
 
 ---
 
-# 26. Detection Validation
+# 26. Exact Wazuh Validation Procedure
 
-Detection validation must be performed separately from detection setup.
+Detection testing must be validated from the Linux endpoint through the Wazuh Dashboard.
 
-For every test, verify:
+The following procedure should be used for each detection test.
 
-### Step 1 — Event Generation
+## Step 1 — Confirm the Wazuh Agent Is Running
 
-Did the controlled activity actually happen?
+On the Ubuntu 22.04 LTS endpoint:
 
-### Step 2 — Local Logging
+```
+sudo systemctl status wazuh-agent
+```
 
-Did Linux record the event?
+Expected result:
 
-### Step 3 — Collection
+```
+Active: active (running)
+```
 
-Did Wazuh receive the event?
+If the agent is not running, do not continue with central validation.
 
-### Step 4 — Detection
+Start it if required:
 
-Did an appropriate Wazuh rule evaluate the event?
+```
+sudo systemctl start wazuh-agent
+```
 
-### Step 5 — Alert
+Then check again:
 
-Was an alert generated when the configured rule conditions were satisfied?
-
-### Step 6 — Evidence
-
-Was the result documented?
+```
+sudo systemctl status wazuh-agent
+```
 
 ---
 
-# 27. Detection Validation Matrix
+## Step 2 — Confirm the Linux Event Exists Locally
 
-| Scenario                      | Local Event | Central Event | Detection | Alert | Status |
-| ----------------------------- | ----------- | ------------- | --------- | ----- | ------ |
-| Failed SSH authentication     | ☐           | ☐             | ☐         | ☐     | ☐      |
-| Successful SSH authentication | ☐           | ☐             | ☐         | ☐     | ☐      |
-| Sudo activity                 | ☐           | ☐             | ☐         | ☐     | ☐      |
-| Service activity              | ☐           | ☐             | ☐         | ☐     | ☐      |
-| Process activity              | ☐           | ☐             | ☐         | ☐     | ☐      |
+Generate the controlled test event.
+
+For example, for SSH authentication:
+
+```
+sudo grep "Failed password" /var/log/auth.log
+```
+
+For successful authentication:
+
+```
+sudo grep "Accepted" /var/log/auth.log
+```
+
+For sudo activity:
+
+```
+sudo grep "sudo:" /var/log/auth.log
+```
+
+The event must first exist on the Ubuntu endpoint.
+
+If the event does not exist locally, troubleshoot Linux logging before troubleshooting Wazuh.
+
+---
+
+## Step 3 — Confirm the Wazuh Agent Is Processing Logs
+
+Check the Wazuh Agent log:
+
+```
+sudo tail -n 50 /var/ossec/logs/ossec.log
+```
+
+Look for recent messages related to the agent's operation.
+
+Also confirm the agent remains active:
+
+```
+sudo systemctl is-active wazuh-agent
+```
+
+Expected result:
+
+```
+active
+```
+
+---
+
+## Step 4 — Open the Wazuh Dashboard
+
+Open the Wazuh Dashboard used by the home lab.
+
+Navigate to the area used for viewing security alerts/events.
+
+The exact dashboard labels can vary between Wazuh versions, so use the current alert/event view available in the installed version.
+
+---
+
+## Step 5 — Filter by the Ubuntu Agent
+
+Identify the Ubuntu 22.04 LTS endpoint in the Wazuh Dashboard.
+
+Use the available agent filter to narrow the results to:
+
+```
+Ubuntu 22.04 LTS
+```
+
+This prevents unrelated events from other lab machines from confusing the validation.
+
+---
+
+## Step 6 — Set the Time Range
+
+Set the Dashboard time range to include the moment when the controlled test was performed.
+
+For a simple test, a recent time range such as:
+
+```
+Last 15 minutes
+```
+
+is normally sufficient.
+
+If the event was generated earlier, select a time range that includes the actual event timestamp.
+
+---
+
+## Step 7 — Find the Test Event or Alert
+
+Search/filter for information related to the test.
+
+For example:
+
+### Failed SSH Test
+
+Look for authentication-related information such as:
+
+```
+Failed password
+SSH
+Authentication failure
+```
+
+### Successful SSH Test
+
+Look for:
+
+```
+Accepted
+SSH
+Successful authentication
+```
+
+### Sudo Test
+
+Look for:
+
+```
+sudo
+privilege
+command execution
+```
+
+Do not rely only on the exact wording above because event descriptions can vary depending on the Linux log format and Wazuh rule that processes the event.
+
+---
+
+## Step 8 — Open the Alert/Event Details
+
+Open the matching Wazuh alert/event.
+
+Record the available information.
+
+Important fields include:
+
+* Timestamp
+* Agent name
+* Agent ID, if displayed
+* Rule ID, if displayed
+* Rule description
+* Rule level/severity
+* Source IP, if available
+* Source/user information, if available
+* Decoder/event source, if displayed
+* Full log/event data
+* MITRE ATT&CK information, if available
+
+Do not manually invent a rule ID or severity.
+
+Record the actual values shown by your Wazuh installation.
+
+---
+
+## Step 9 — Compare the Dashboard Event With the Linux Log
+
+Return to Ubuntu and compare the event with the local log.
+
+For example:
+
+```
+Ubuntu Local Log
+      ↓
+Failed SSH Event
+      ↓
+Wazuh Agent
+      ↓
+Wazuh Dashboard
+      ↓
+Matching Alert/Event
+```
+
+Compare:
+
+* Timestamp
+* Username
+* Source IP
+* Event description
+* Authentication result
+
+The purpose is to confirm that the Wazuh alert/event corresponds to the event that was intentionally generated.
+
+---
+
+## Step 10 — Confirm Detection
+
+Determine which of the following occurred:
+
+### Case A — Detection and Alert
+
+```
+Local Event
+     ↓
+Wazuh Collection
+     ↓
+Detection Rule Match
+     ↓
+   Alert
+```
+
+Record:
+
+```
+Detection: PASS
+Alert: PASS
+```
+
+### Case B — Collection but No Alert
+
+```
+Local Event
+     ↓
+Wazuh Collection
+     ↓
+No Matching Detection
+     ↓
+No Alert
+```
+
+Record:
+
+```
+Collection: PASS
+Detection: NOT OBSERVED
+Alert: NOT GENERATED
+```
+
+This is not automatically a failure.
+
+Not every collected event generates a security alert.
+
+### Case C — No Central Event
+
+```
+Local Event
+     ↓
+Wazuh Collection Failure
+     ↓
+No Central Event
+```
+
+Record:
+
+```
+Local Event: PASS
+Collection: FAIL
+Detection: NOT TESTABLE
+Alert: NOT TESTABLE
+```
+
+Investigate the Wazuh Agent and log collection configuration.
+
+---
+
+# 27. Exact Wazuh Validation Checklist
+
+Use this checklist for every detection test.
+
+```
+[ ] Controlled test activity performed
+[ ] Linux event generated
+[ ] Local Linux log contains the event
+[ ] Wazuh Agent is active
+[ ] Wazuh Agent log checked
+[ ] Wazuh Dashboard opened
+[ ] Ubuntu agent selected/filtered
+[ ] Correct time range selected
+[ ] Test event/alert located
+[ ] Alert/event details opened
+[ ] Timestamp compared
+[ ] Username compared
+[ ] Source IP compared, if available
+[ ] Event/log content compared
+[ ] Rule information recorded, if available
+[ ] Alert severity recorded, if available
+[ ] Detection result recorded
+[ ] Evidence captured
+```
+
+---
+
+# 28. Detection Validation Matrix
+
+| Scenario                      | Local Event | Agent Active | Central Event | Detection | Alert | Status |
+| ----------------------------- | ----------- | ------------ | ------------- | --------- | ----- | ------ |
+| Failed SSH authentication     | ☐           | ☐            | ☐             | ☐         | ☐     | ☐      |
+| Successful SSH authentication | ☐           | ☐            | ☐             | ☐         | ☐     | ☐      |
+| Sudo activity                 | ☐           | ☐            | ☐             | ☐         | ☐     | ☐      |
+| Service activity              | ☐           | ☐            | ☐             | ☐         | ☐     | ☐      |
+| Process activity              | ☐           | ☐            | ☐             | ☐         | ☐     | ☐      |
 
 Not every normal event is expected to generate a security alert.
 
@@ -828,13 +1117,13 @@ The important objective is to understand the difference between **event visibili
 
 ---
 
-# 28. What If No Alert Is Generated?
+# 29. What If No Alert Is Generated?
 
 No alert does not automatically mean that the monitoring system is broken.
 
 Use this troubleshooting sequence:
 
-```text
+```
 Was the Event Generated?
         ↓
        YES
@@ -864,19 +1153,19 @@ Possible explanations include:
 
 ---
 
-# 29. Detection Troubleshooting
+# 30. Detection Troubleshooting
 
 ## Problem 1 — Event Does Not Exist Locally
 
 Check:
 
-```bash
+```
 sudo tail -n 30 /var/log/auth.log
 ```
 
 or:
 
-```bash
+```
 sudo journalctl --since "10 minutes ago"
 ```
 
@@ -888,13 +1177,13 @@ If the event is not present locally, investigate Linux logging first.
 
 Check:
 
-```bash
+```
 sudo systemctl status wazuh-agent
 ```
 
 Then:
 
-```bash
+```
 sudo tail -n 50 /var/ossec/logs/ossec.log
 ```
 
@@ -908,7 +1197,7 @@ This may be normal.
 
 Ask:
 
-```text
+```
 Did a Wazuh detection rule match the event?
 ```
 
@@ -920,13 +1209,13 @@ Not every collected event produces an alert.
 
 Check:
 
-```bash
+```
 sudo systemctl status wazuh-agent
 ```
 
 Then:
 
-```bash
+```
 sudo tail -n 50 /var/ossec/logs/ossec.log
 ```
 
@@ -934,11 +1223,11 @@ Review recent configuration changes.
 
 ---
 
-# 30. Evidence Requirements
+# 31. Evidence Requirements
 
 Store detection evidence under:
 
-```text
+```
 03-Linux-Security-Monitoring/
 └── Evidence/
 ```
@@ -949,7 +1238,7 @@ Recommended evidence:
 
 Show:
 
-```bash
+```
 sudo grep "Failed password" /var/log/auth.log
 ```
 
@@ -963,7 +1252,7 @@ Show the successful authentication event and corresponding Wazuh data.
 
 Show:
 
-```bash
+```
 sudo grep "sudo:" /var/log/auth.log
 ```
 
@@ -988,11 +1277,11 @@ Do not include passwords, private keys, tokens, or unnecessary sensitive informa
 
 ---
 
-# 31. Detection Test Record
+# 32. Detection Test Record
 
 Use the following format for each detection test:
 
-```text
+```
 Detection Scenario:
 Date:
 Endpoint:
@@ -1009,7 +1298,7 @@ Evidence File:
 
 Example:
 
-```text
+```
 Detection Scenario: Controlled SSH Authentication Failure
 Endpoint: Ubuntu 22.04 LTS
 Test Activity: One unauthorized-password test in the lab
@@ -1025,11 +1314,11 @@ Replace the example values with the actual results from the lab.
 
 ---
 
-# 32. Detection Quality
+# 33. Detection Quality
 
 A useful detection should ideally be:
 
-```text
+```
 Relevant
    +
 Understandable
@@ -1043,7 +1332,7 @@ A detection that produces large numbers of irrelevant alerts can create analyst 
 
 This is known as:
 
-```text
+```
 Alert Fatigue
 ```
 
@@ -1051,22 +1340,22 @@ At the beginner level, the goal is to understand why detections should identify 
 
 ---
 
-# 33. False Positive Concept
+# 34. False Positive Concept
 
 A false positive occurs when an alert indicates potentially suspicious activity but the activity is actually legitimate.
 
 Example:
 
-```text
+```
 sudo Activity
       ↓
-Alert
+    Alert
       ↓
-Investigation
+ Investigation
       ↓
 Authorized Administrator
       ↓
-False Positive
+ False Positive
 ```
 
 This is an important SOC concept.
@@ -1075,18 +1364,18 @@ An alert is a starting point for investigation, not automatically proof of malic
 
 ---
 
-# 34. False Negative Concept
+# 35. False Negative Concept
 
 A false negative occurs when suspicious activity happens but the monitoring system does not detect it.
 
 Example:
 
-```text
+```
 Suspicious Activity
         ↓
 No Matching Detection
         ↓
-No Alert
+      No Alert
         ↓
 Potentially Missed Activity
 ```
@@ -1095,7 +1384,7 @@ This is why detection coverage and validation are important.
 
 ---
 
-# 35. Detection Coverage
+# 36. Detection Coverage
 
 The lab should gradually build coverage across important Linux activity categories.
 
@@ -1115,42 +1404,42 @@ The objective is to build a useful beginner-level monitoring capability.
 
 ---
 
-# 36. Detection Workflow
+# 37. Detection Workflow
 
 The detection workflow for this lab is:
 
-```text
-                    Linux Endpoint
-                          │
-                          ↓
-                     Event Generated
-                          │
-                          ↓
-                      Local Log
-                          │
-                          ↓
-                     Wazuh Agent
-                          │
-                          ↓
-                     Wazuh Server
-                          │
-                          ↓
-                    Detection Rules
-                          │
-              ┌───────────┴───────────┐
-              ↓                       ↓
-        Rule Matches             No Match
-              ↓                       ↓
-            Alert              Event Only
-              ↓
-         SOC Analysis
+```
+                        Linux Endpoint
+                              │
+                              ↓
+                       Event Generated
+                              │
+                              ↓
+                          Local Log
+                              │
+                              ↓
+                         Wazuh Agent
+                              │
+                              ↓
+                         Wazuh Server
+                              │
+                              ↓
+                       Detection Rules
+                              │
+                 ┌────────────┴────────────┐
+                 ↓                         ↓
+           Rule Matches               No Match
+                 ↓                         ↓
+               Alert                   Event Only
+                 ↓
+            SOC Analysis
 ```
 
 This is the basic relationship between event collection and detection.
 
 ---
 
-# 37. Security and Authorization
+# 38. Security and Authorization
 
 Detection testing must be performed only against authorized home-lab systems.
 
@@ -1166,7 +1455,7 @@ Do not perform authentication testing or security testing against external syste
 
 ---
 
-# 38. Detection Completion Criteria
+# 39. Detection Completion Criteria
 
 The detection stage is complete when:
 
@@ -1188,7 +1477,7 @@ The detection stage is complete when:
 
 ---
 
-# 39. SOC Learning Outcome
+# 40. SOC Learning Outcome
 
 After completing this stage, the learner should be able to explain:
 
@@ -1196,27 +1485,27 @@ After completing this stage, the learner should be able to explain:
 
 The complete flow is:
 
-```text
+```
 Linux Activity
       ↓
-Linux Event
+  Linux Event
       ↓
-Linux Log
+   Linux Log
       ↓
 Wazuh Collection
       ↓
-Detection Rule
+ Detection Rule
       ↓
-Rule Match
+   Rule Match
       ↓
-Security Alert
+ Security Alert
       ↓
-SOC Analyst
+  SOC Analyst
 ```
 
 The learner should also understand:
 
-```text
+```
 Event ≠ Alert
 Alert ≠ Confirmed Incident
 ```
@@ -1225,7 +1514,7 @@ An alert requires analysis and investigation before determining whether maliciou
 
 ---
 
-# 40. Success Criteria
+# 41. Success Criteria
 
 This stage is successful when the learner can:
 
@@ -1244,7 +1533,7 @@ This stage is successful when the learner can:
 
 ---
 
-# 41. Related Documentation
+# 42. Related Documentation
 
 * `01-Lab-Objective.md`
 * `02-Lab-Setup.md`
